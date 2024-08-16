@@ -52,18 +52,54 @@
             position: absolute;
             top: 10px;
             right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 150px;
+            background-color: #ccc;
+            border-radius: 25px;
+            padding: 5px;
+        }
+        .slider-container {
+            flex: 1;
+            position: relative;
+            height: 20px;
+            background-color: #aaa;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .slider {
+            position: absolute;
+            width: 50px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            transition: left 0.3s;
+        }
+        .label-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        .label-container span {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
     <div class="mode-selector">
-        <label for="modeSelect">Modus wählen:</label>
-        <select id="modeSelect">
-            <option value="white">White Mode</option>
-            <option value="dark">Dark Mode</option>
-            <option value="gray">Gray Mode</option>
-        </select>
+        <div class="slider-container" id="sliderContainer">
+            <div class="slider" id="slider"></div>
+        </div>
+        <div class="label-container">
+            <span>White</span>
+            <span>Gray</span>
+            <span>Dark</span>
+        </div>
     </div>
 
     <div class="container">
@@ -149,15 +185,39 @@
         // Zufällige Auswahl beim Laden der Seite
         window.onload = randomizeSelection;
 
-        // Funktion zur Änderung des Modus
-        document.getElementById('modeSelect').addEventListener('change', function() {
-            const selectedMode = this.value;
+        // Slider-Logik
+        const slider = document.getElementById('slider');
+        const sliderContainer = document.getElementById('sliderContainer');
 
-            switch(selectedMode) {
+        sliderContainer.addEventListener('click', function(event) {
+            const containerWidth = sliderContainer.offsetWidth;
+            const clickX = event.offsetX;
+            const thirdWidth = containerWidth / 3;
+
+            if (clickX < thirdWidth) {
+                slider.style.left = '0';
+                changeMode('white');
+            } else if (clickX < 2 * thirdWidth) {
+                slider.style.left = '50px';
+                changeMode('gray');
+            } else {
+                slider.style.left = '100px';
+                changeMode('dark');
+            }
+        });
+
+        function changeMode(mode) {
+            switch(mode) {
                 case 'white':
                     document.body.style.backgroundColor = '#ffffff';
                     document.body.style.color = '#000000';
                     document.querySelector('.container').style.backgroundColor = '#f9f9f9';
+                    document.querySelector('.container').style.color = '#000000';
+                    break;
+                case 'gray':
+                    document.body.style.backgroundColor = '#cccccc';
+                    document.body.style.color = '#000000';
+                    document.querySelector('.container').style.backgroundColor = '#e0e0e0';
                     document.querySelector('.container').style.color = '#000000';
                     break;
                 case 'dark':
@@ -166,14 +226,11 @@
                     document.querySelector('.container').style.backgroundColor = '#444444';
                     document.querySelector('.container').style.color = '#ffffff';
                     break;
-                case 'gray':
-                    document.body.style.backgroundColor = '#cccccc';
-                    document.body.style.color = '#000000';
-                    document.querySelector('.container').style.backgroundColor = '#e0e0e0';
-                    document.querySelector('.container').style.color = '#000000';
-                    break;
             }
-        });
+        }
+
+        // Set default mode
+        changeMode('white'); // Set default mode to white
     </script>
 
 </body>
