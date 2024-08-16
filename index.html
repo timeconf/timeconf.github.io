@@ -37,6 +37,9 @@
         #displayZeiger {
             z-index: 2;
         }
+        #displayGehause {
+            z-index: 0;
+        }
         .form-container {
             flex: 1;
             padding-left: 20px;
@@ -103,6 +106,7 @@
 
     <div class="container">
         <div class="preview-container">
+            <img id="displayGehause" src="https://via.placeholder.com/300?text=Geh%C3%A4use" alt="Gehäuse">
             <img id="displayZifferblatt" src="https://via.placeholder.com/300?text=Zifferblatt" alt="Zifferblatt">
             <img id="displayZeiger" src="https://via.placeholder.com/300?text=Zeiger" alt="Zeiger">
         </div>
@@ -137,6 +141,20 @@
                     <input type="radio" name="handOption" value="hand3">
                     Minimalistische Zeiger
                 </label>
+
+                <h2>Gehäuseauswahl</h2>
+                <label>
+                    <input type="radio" name="caseOption" value="case1">
+                    Rundes Gehäuse
+                </label>
+                <label>
+                    <input type="radio" name="caseOption" value="case2">
+                    Eckiges Gehäuse
+                </label>
+                <label>
+                    <input type="radio" name="caseOption" value="case3">
+                    Ovales Gehäuse
+                </label>
             </form>
         </div>
     </div>
@@ -155,17 +173,26 @@
             "https://via.placeholder.com/300?text=Minimalistische+Zeiger"
         ];
 
+        const gehauseImages = [
+            "https://via.placeholder.com/300?text=Rundes+Geh%C3%A4use",
+            "https://via.placeholder.com/300?text=Eckiges+Geh%C3%A4use",
+            "https://via.placeholder.com/300?text=Ovales+Geh%C3%A4use"
+        ];
+
         // Funktion, um eine zufällige Kombination auszuwählen
         function randomizeSelection() {
             const randomZifferblattIndex = Math.floor(Math.random() * zifferblattImages.length);
             const randomZeigerIndex = Math.floor(Math.random() * zeigerImages.length);
+            const randomGehauseIndex = Math.floor(Math.random() * gehauseImages.length);
 
             document.getElementById('displayZifferblatt').src = zifferblattImages[randomZifferblattIndex];
             document.getElementById('displayZeiger').src = zeigerImages[randomZeigerIndex];
+            document.getElementById('displayGehause').src = gehauseImages[randomGehauseIndex];
 
             // Die entsprechenden Radiobuttons auswählen
             document.querySelector(`input[name="watchOption"][value="option${randomZifferblattIndex + 1}"]`).checked = true;
             document.querySelector(`input[name="handOption"][value="hand${randomZeigerIndex + 1}"]`).checked = true;
+            document.querySelector(`input[name="caseOption"][value="case${randomGehauseIndex + 1}"]`).checked = true;
         }
 
         // Event-Listener für die Radiobuttons, um das Bild entsprechend der Auswahl zu ändern
@@ -178,6 +205,12 @@
         document.querySelectorAll('input[name="handOption"]').forEach((radio, index) => {
             radio.addEventListener('change', () => {
                 document.getElementById('displayZeiger').src = zeigerImages[index];
+            });
+        });
+
+        document.querySelectorAll('input[name="caseOption"]').forEach((radio, index) => {
+            radio.addEventListener('change', () => {
+                document.getElementById('displayGehause').src = gehauseImages[index];
             });
         });
 
