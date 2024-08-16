@@ -55,7 +55,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 150px;
+            width: 100px;
             background-color: #ccc;
             border-radius: 25px;
             padding: 5px;
@@ -97,7 +97,6 @@
         </div>
         <div class="label-container">
             <span>White</span>
-            <span>Gray</span>
             <span>Dark</span>
         </div>
     </div>
@@ -192,16 +191,13 @@
         sliderContainer.addEventListener('click', function(event) {
             const containerWidth = sliderContainer.offsetWidth;
             const clickX = event.offsetX;
-            const thirdWidth = containerWidth / 3;
+            const halfWidth = containerWidth / 2;
 
-            if (clickX < thirdWidth) {
+            if (clickX < halfWidth) {
                 slider.style.left = '0';
                 changeMode('white');
-            } else if (clickX < 2 * thirdWidth) {
-                slider.style.left = '50px';
-                changeMode('gray');
             } else {
-                slider.style.left = '100px';
+                slider.style.left = '50px';
                 changeMode('dark');
             }
         });
@@ -212,12 +208,6 @@
                     document.body.style.backgroundColor = '#ffffff';
                     document.body.style.color = '#000000';
                     document.querySelector('.container').style.backgroundColor = '#f9f9f9';
-                    document.querySelector('.container').style.color = '#000000';
-                    break;
-                case 'gray':
-                    document.body.style.backgroundColor = '#cccccc';
-                    document.body.style.color = '#000000';
-                    document.querySelector('.container').style.backgroundColor = '#e0e0e0';
                     document.querySelector('.container').style.color = '#000000';
                     break;
                 case 'dark':
