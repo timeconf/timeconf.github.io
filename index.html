@@ -34,6 +34,7 @@
             text-align: center;
             background-color: #f9f9f9;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
         .preview-container img {
             max-width: 100%;
@@ -48,6 +49,7 @@
             flex: 1;
             padding: 40px;
             background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
         }
         h1 {
             text-align: center;
@@ -223,6 +225,8 @@
                     document.body.style.color = '#333';
                     document.querySelector('.container').style.backgroundColor = '#fff';
                     document.querySelector('.container').style.color = '#333';
+                    document.querySelector('.preview-container').style.backgroundColor = '#f9f9f9';
+                    document.querySelector('.form-container').style.backgroundColor = '#fff';
                     modeButton.classList.remove('dark');
                     break;
                 case 'dark':
@@ -230,6 +234,8 @@
                     document.body.style.color = '#f0f2f5';
                     document.querySelector('.container').style.backgroundColor = '#242424';
                     document.querySelector('.container').style.color = '#f0f2f5';
+                    document.querySelector('.preview-container').style.backgroundColor = '#1f1f1f';
+                    document.querySelector('.form-container').style.backgroundColor = '#242424';
                     modeButton.classList.add('dark');
                     break;
             }
