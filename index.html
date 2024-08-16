@@ -50,6 +50,7 @@
             padding: 40px;
             background-color: #fff;
             transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto;
         }
         h1 {
             text-align: center;
@@ -59,8 +60,25 @@
         }
         .thumbnail-container {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            height: 150px;
+            overflow-y: auto;
             margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f0f2f5;
+        }
+        .thumbnail-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+        .thumbnail-container::-webkit-scrollbar-track {
+            background-color: #f0f2f5;
         }
         .thumbnail {
             border: 2px solid transparent;
@@ -69,6 +87,7 @@
             transition: border-color 0.3s;
             width: 60px;
             height: 60px;
+            margin-bottom: 10px;
         }
         .thumbnail.selected {
             border-color: #4CAF50;
@@ -218,21 +237,18 @@
                     document.querySelector('.container').style.color = '#333';
                     document.querySelector('.preview-container').style.backgroundColor = '#f9f9f9';
                     document.querySelector('.form-container').style.backgroundColor = '#fff';
-                    modeButton.classList.remove('dark');
                     break;
                 case 'dark':
-                    document.body.style.backgroundColor = '#181818';
+                    document.body.style.backgroundColor = '#333';
                     document.body.style.color = '#f0f2f5';
-                    document.querySelector('.container').style.backgroundColor = '#242424';
+                    document.querySelector('.container').style.backgroundColor = '#444';
                     document.querySelector('.container').style.color = '#f0f2f5';
-                    document.querySelector('.preview-container').style.backgroundColor = '#1f1f1f';
-                    document.querySelector('.form-container').style.backgroundColor = '#242424';
-                    modeButton.classList.add('dark');
+                    document.querySelector('.preview-container').style.backgroundColor = '#555';
+                    document.querySelector('.form-container').style.backgroundColor = '#444';
                     break;
             }
         }
 
-        // Set default mode
         changeMode('white'); // Set default mode to white
     </script>
 
