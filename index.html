@@ -19,11 +19,21 @@
         }
         .preview-container {
             flex: 1;
+            position: relative;
             text-align: center;
         }
         .preview-container img {
             max-width: 100%;
             height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #displayZifferblatt {
+            z-index: 1;
+        }
+        #displayZeiger {
+            z-index: 2;
         }
         .form-container {
             flex: 1;
@@ -43,7 +53,7 @@
     <div class="container">
         <div class="preview-container">
             <img id="displayZifferblatt" src="https://via.placeholder.com/300?text=Zifferblatt" alt="Zifferblatt">
-            <img id="displayZeiger" src="https://via.placeholder.com/300?text=Zeiger" alt="Zeiger" style="position: absolute; top: 0; left: 0;">
+            <img id="displayZeiger" src="https://via.placeholder.com/300?text=Zeiger" alt="Zeiger">
         </div>
 
         <div class="form-container">
