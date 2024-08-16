@@ -38,6 +38,15 @@
         .button:hover {
             background-color: #0056b3;
         }
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: none; /* Versteckt die Bilder zunächst */
+        }
     </style>
 </head>
 <body>
@@ -57,9 +66,27 @@
                 <input type="radio" name="watchOption" value="option3">
                 Elegantes Gehäuse
             </label>
-            <button type="submit" class="button">Auswahl bestätigen</button>
         </form>
+
+        <div class="image-container">
+            <img id="image1" src="https://via.placeholder.com/300?text=Klassisches+Zifferblatt" alt="Klassisches Zifferblatt">
+            <img id="image2" src="https://via.placeholder.com/300?text=Sportliches+Armband" alt="Sportliches Armband">
+            <img id="image3" src="https://via.placeholder.com/300?text=Elegantes+Gehäuse" alt="Elegantes Gehäuse">
+        </div>
     </div>
+
+    <script>
+        // Funktion, um das Bild je nach gewähltem Radiobutton zu ändern
+        const radioButtons = document.querySelectorAll('input[name="watchOption"]');
+        const images = document.querySelectorAll('.image-container img');
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+                images.forEach(img => img.style.display = 'none'); // Alle Bilder ausblenden
+                document.getElementById('image' + radio.value[radio.value.length - 1]).style.display = 'block'; // Passendes Bild anzeigen
+            });
+        });
+    </script>
 
 </body>
 </html>
