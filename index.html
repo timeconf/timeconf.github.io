@@ -54,6 +54,7 @@
     <div class="container">
         <h1>Uhrenkonfigurator</h1>
         <form>
+            <h2>Zifferblatt & Gehäuse</h2>
             <label>
                 <input type="radio" name="watchOption" value="option1">
                 Klassisches Zifferblatt
@@ -66,17 +67,36 @@
                 <input type="radio" name="watchOption" value="option3">
                 Elegantes Gehäuse
             </label>
+            
+            <h2>Zeigerauswahl</h2>
+            <label>
+                <input type="radio" name="handOption" value="hand1">
+                Klassische Zeiger
+            </label>
+            <label>
+                <input type="radio" name="handOption" value="hand2">
+                Moderne Zeiger
+            </label>
+            <label>
+                <input type="radio" name="handOption" value="hand3">
+                Minimalistische Zeiger
+            </label>
         </form>
 
         <div class="image-container">
+            <!-- Zifferblatt & Gehäuse Bilder -->
             <img id="image1" src="https://via.placeholder.com/300?text=Klassisches+Zifferblatt" alt="Klassisches Zifferblatt">
             <img id="image2" src="https://via.placeholder.com/300?text=Sportliches+Armband" alt="Sportliches Armband">
             <img id="image3" src="https://via.placeholder.com/300?text=Elegantes+Gehäuse" alt="Elegantes Gehäuse">
+            <!-- Zeiger Bilder -->
+            <img id="hand1" src="https://via.placeholder.com/300?text=Klassische+Zeiger" alt="Klassische Zeiger">
+            <img id="hand2" src="https://via.placeholder.com/300?text=Moderne+Zeiger" alt="Moderne Zeiger">
+            <img id="hand3" src="https://via.placeholder.com/300?text=Minimalistische+Zeiger" alt="Minimalistische Zeiger">
         </div>
     </div>
 
     <script>
-        // Funktion, um das Bild je nach gewähltem Radiobutton zu ändern
+        // Funktion, um das Bild je nach gewähltem Radiobutton für das Zifferblatt zu ändern
         const radioButtons = document.querySelectorAll('input[name="watchOption"]');
         const images = document.querySelectorAll('.image-container img');
 
@@ -84,6 +104,16 @@
             radio.addEventListener('change', () => {
                 images.forEach(img => img.style.display = 'none'); // Alle Bilder ausblenden
                 document.getElementById('image' + radio.value[radio.value.length - 1]).style.display = 'block'; // Passendes Bild anzeigen
+            });
+        });
+
+        // Funktion, um das Bild je nach gewähltem Radiobutton für die Zeiger zu ändern
+        const handRadioButtons = document.querySelectorAll('input[name="handOption"]');
+        
+        handRadioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+                images.forEach(img => img.style.display = 'none'); // Alle Bilder ausblenden
+                document.getElementById(radio.value).style.display = 'block'; // Passendes Bild anzeigen
             });
         });
     </script>
