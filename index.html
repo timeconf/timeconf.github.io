@@ -57,16 +57,21 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
-        label {
-            display: block;
+        .thumbnail-container {
+            display: flex;
+            justify-content: space-around;
             margin: 15px 0;
-            font-size: 16px;
-            color: #555;
-            cursor: pointer;
         }
-        input[type="radio"] {
-            margin-right: 10px;
+        .thumbnail {
+            border: 2px solid transparent;
+            border-radius: 5px;
             cursor: pointer;
+            transition: border-color 0.3s;
+            width: 60px;
+            height: 60px;
+        }
+        .thumbnail.selected {
+            border-color: #4CAF50;
         }
         .mode-button {
             position: absolute;
@@ -99,49 +104,21 @@
 
         <div class="form-container">
             <h1>Uhrenkonfigurator</h1>
-            <form>
-                <h2>Zifferblatt & Gehäuse</h2>
-                <label>
-                    <input type="radio" name="watchOption" value="option1">
-                    Klassisches Zifferblatt
-                </label>
-                <label>
-                    <input type="radio" name="watchOption" value="option2">
-                    Sportliches Armband
-                </label>
-                <label>
-                    <input type="radio" name="watchOption" value="option3">
-                    Elegantes Gehäuse
-                </label>
-                
-                <h2>Zeigerauswahl</h2>
-                <label>
-                    <input type="radio" name="handOption" value="hand1">
-                    Klassische Zeiger
-                </label>
-                <label>
-                    <input type="radio" name="handOption" value="hand2">
-                    Moderne Zeiger
-                </label>
-                <label>
-                    <input type="radio" name="handOption" value="hand3">
-                    Minimalistische Zeiger
-                </label>
+            
+            <h2>Zifferblatt & Gehäuse</h2>
+            <div class="thumbnail-container" id="zifferblattContainer">
+                <!-- Miniaturansichten für Zifferblätter -->
+            </div>
+            
+            <h2>Zeigerauswahl</h2>
+            <div class="thumbnail-container" id="zeigerContainer">
+                <!-- Miniaturansichten für Zeiger -->
+            </div>
 
-                <h2>Gehäuseauswahl</h2>
-                <label>
-                    <input type="radio" name="caseOption" value="case1">
-                    Rundes Gehäuse
-                </label>
-                <label>
-                    <input type="radio" name="caseOption" value="case2">
-                    Eckiges Gehäuse
-                </label>
-                <label>
-                    <input type="radio" name="caseOption" value="case3">
-                    Ovales Gehäuse
-                </label>
-            </form>
+            <h2>Gehäuseauswahl</h2>
+            <div class="thumbnail-container" id="gehauseContainer">
+                <!-- Miniaturansichten für Gehäuse -->
+            </div>
         </div>
     </div>
 
@@ -165,7 +142,41 @@
             "https://via.placeholder.com/300?text=Ovales+Geh%C3%A4use"
         ];
 
-        // Funktion, um eine zufällige Kombination auszuwählen
+        // Funktion, um Miniaturansichten zu generieren
+        function createThumbnails(containerId, images, displayElementId) {
+            const container = document.getElementById(containerId);
+
+            images.forEach((image, index) => {
+                const img = document.createElement('img');
+                img.src = image;
+                img.classList.add('thumbnail');
+                img.addEventListener('click', () => {
+                    document.getElementById(displayElementId).src = image;
+                    selectThumbnail(container, index);
+                });
+
+                container.appendChild(img);
+            });
+        }
+
+        // Funktion, um die ausgewählte Miniaturansicht hervorzuheben
+        function selectThumbnail(container, index) {
+            const thumbnails = container.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumbnail, i) => {
+                if (i === index) {
+                    thumbnail.classList.add('selected');
+                } else {
+                    thumbnail.classList.remove('selected');
+                }
+            });
+        }
+
+        // Generiere die Miniaturansichten
+        createThumbnails('zifferblattContainer', zifferblattImages, 'displayZifferblatt');
+        createThumbnails('zeigerContainer', zeigerImages, 'displayZeiger');
+        createThumbnails('gehauseContainer', gehauseImages, 'displayGehause');
+
+        // Zufällige Auswahl beim Laden der Seite
         function randomizeSelection() {
             const randomZifferblattIndex = Math.floor(Math.random() * zifferblattImages.length);
             const randomZeigerIndex = Math.floor(Math.random() * zeigerImages.length);
@@ -175,32 +186,12 @@
             document.getElementById('displayZeiger').src = zeigerImages[randomZeigerIndex];
             document.getElementById('displayGehause').src = gehauseImages[randomGehauseIndex];
 
-            // Die entsprechenden Radiobuttons auswählen
-            document.querySelector(`input[name="watchOption"][value="option${randomZifferblattIndex + 1}"]`).checked = true;
-            document.querySelector(`input[name="handOption"][value="hand${randomZeigerIndex + 1}"]`).checked = true;
-            document.querySelector(`input[name="caseOption"][value="case${randomGehauseIndex + 1}"]`).checked = true;
+            // Die entsprechenden Miniaturansichten auswählen
+            selectThumbnail(document.getElementById('zifferblattContainer'), randomZifferblattIndex);
+            selectThumbnail(document.getElementById('zeigerContainer'), randomZeigerIndex);
+            selectThumbnail(document.getElementById('gehauseContainer'), randomGehauseIndex);
         }
 
-        // Event-Listener für die Radiobuttons, um das Bild entsprechend der Auswahl zu ändern
-        document.querySelectorAll('input[name="watchOption"]').forEach((radio, index) => {
-            radio.addEventListener('change', () => {
-                document.getElementById('displayZifferblatt').src = zifferblattImages[index];
-            });
-        });
-
-        document.querySelectorAll('input[name="handOption"]').forEach((radio, index) => {
-            radio.addEventListener('change', () => {
-                document.getElementById('displayZeiger').src = zeigerImages[index];
-            });
-        });
-
-        document.querySelectorAll('input[name="caseOption"]').forEach((radio, index) => {
-            radio.addEventListener('change', () => {
-                document.getElementById('displayGehause').src = gehauseImages[index];
-            });
-        });
-
-        // Zufällige Auswahl beim Laden der Seite
         window.onload = randomizeSelection;
 
         // Dark/Light Mode Switch mit Button
