@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
+            transition: background-color 0.3s, color 0.3s;
         }
         .container {
             display: flex;
@@ -16,6 +17,7 @@
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
+            transition: background-color 0.3s, color 0.3s;
         }
         .preview-container {
             flex: 1;
@@ -46,9 +48,23 @@
             display: block;
             margin: 10px 0;
         }
+        .mode-selector {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
+
+    <div class="mode-selector">
+        <label for="modeSelect">Modus wählen:</label>
+        <select id="modeSelect">
+            <option value="white">White Mode</option>
+            <option value="dark">Dark Mode</option>
+            <option value="gray">Gray Mode</option>
+        </select>
+    </div>
 
     <div class="container">
         <div class="preview-container">
@@ -132,6 +148,32 @@
 
         // Zufällige Auswahl beim Laden der Seite
         window.onload = randomizeSelection;
+
+        // Funktion zur Änderung des Modus
+        document.getElementById('modeSelect').addEventListener('change', function() {
+            const selectedMode = this.value;
+
+            switch(selectedMode) {
+                case 'white':
+                    document.body.style.backgroundColor = '#ffffff';
+                    document.body.style.color = '#000000';
+                    document.querySelector('.container').style.backgroundColor = '#f9f9f9';
+                    document.querySelector('.container').style.color = '#000000';
+                    break;
+                case 'dark':
+                    document.body.style.backgroundColor = '#333333';
+                    document.body.style.color = '#ffffff';
+                    document.querySelector('.container').style.backgroundColor = '#444444';
+                    document.querySelector('.container').style.color = '#ffffff';
+                    break;
+                case 'gray':
+                    document.body.style.backgroundColor = '#cccccc';
+                    document.body.style.color = '#000000';
+                    document.querySelector('.container').style.backgroundColor = '#e0e0e0';
+                    document.querySelector('.container').style.color = '#000000';
+                    break;
+            }
+        });
     </script>
 
 </body>
