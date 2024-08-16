@@ -51,58 +51,27 @@
             display: block;
             margin: 10px 0;
         }
-        .mode-selector {
+        .mode-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100px;
+            padding: 10px 20px;
             background-color: #ccc;
-            border-radius: 25px;
-            padding: 5px;
-        }
-        .slider-container {
-            flex: 1;
-            position: relative;
-            height: 20px;
-            background-color: #aaa;
-            border-radius: 25px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
         }
-        .slider {
-            position: absolute;
-            width: 50px;
-            height: 20px;
-            background-color: #fff;
-            border-radius: 25px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.3);
-            transition: left 0.3s;
-        }
-        .label-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-        }
-        .label-container span {
-            flex: 1;
-            text-align: center;
-            font-size: 12px;
+        .mode-button.dark {
+            background-color: #444;
+            color: white;
         }
     </style>
 </head>
 <body>
 
-    <div class="mode-selector">
-        <div class="slider-container" id="sliderContainer">
-            <div class="slider" id="slider"></div>
-        </div>
-        <div class="label-container">
-            <span>White</span>
-            <span>Dark</span>
-        </div>
-    </div>
+    <button class="mode-button" id="modeButton">Dark Mode</button>
 
     <div class="container">
         <div class="preview-container">
@@ -162,21 +131,21 @@
     <script>
         // Arrays mit möglichen Bild-URLs
         const zifferblattImages = [
-            "https://github.com/timeconf/timeconf.github.io/blob/main/Bild3.png?raw=true",
-            "",
-            ""
+            "https://via.placeholder.com/300?text=Klassisches+Zifferblatt",
+            "https://via.placeholder.com/300?text=Sportliches+Armband",
+            "https://via.placeholder.com/300?text=Elegantes+Gehäuse"
         ];
 
         const zeigerImages = [
-            "https://github.com/timeconf/timeconf.github.io/blob/main/Bild1.png?raw=true",
-            "https://github.com/timeconf/timeconf.github.io/blob/main/Bild4.png?raw=true",
-            ""
+            "https://via.placeholder.com/300?text=Klassische+Zeiger",
+            "https://via.placeholder.com/300?text=Moderne+Zeiger",
+            "https://via.placeholder.com/300?text=Minimalistische+Zeiger"
         ];
 
         const gehauseImages = [
-            "https://github.com/timeconf/timeconf.github.io/blob/main/Bild2.png?raw=true",
-            "",
-            ""
+            "https://via.placeholder.com/300?text=Rundes+Geh%C3%A4use",
+            "https://via.placeholder.com/300?text=Eckiges+Geh%C3%A4use",
+            "https://via.placeholder.com/300?text=Ovales+Geh%C3%A4use"
         ];
 
         // Funktion, um eine zufällige Kombination auszuwählen
@@ -217,21 +186,18 @@
         // Zufällige Auswahl beim Laden der Seite
         window.onload = randomizeSelection;
 
-        // Slider-Logik
-        const slider = document.getElementById('slider');
-        const sliderContainer = document.getElementById('sliderContainer');
+        // Dark/Light Mode Switch mit Button
+        const modeButton = document.getElementById('modeButton');
+        let darkModeEnabled = false;
 
-        sliderContainer.addEventListener('click', function(event) {
-            const containerWidth = sliderContainer.offsetWidth;
-            const clickX = event.offsetX;
-            const halfWidth = containerWidth / 2;
-
-            if (clickX < halfWidth) {
-                slider.style.left = '0';
-                changeMode('white');
-            } else {
-                slider.style.left = '50px';
+        modeButton.addEventListener('click', function() {
+            darkModeEnabled = !darkModeEnabled;
+            if (darkModeEnabled) {
                 changeMode('dark');
+                modeButton.textContent = 'White Mode';
+            } else {
+                changeMode('white');
+                modeButton.textContent = 'Dark Mode';
             }
         });
 
@@ -242,12 +208,14 @@
                     document.body.style.color = '#000000';
                     document.querySelector('.container').style.backgroundColor = '#f9f9f9';
                     document.querySelector('.container').style.color = '#000000';
+                    modeButton.classList.remove('dark');
                     break;
                 case 'dark':
                     document.body.style.backgroundColor = '#333333';
                     document.body.style.color = '#ffffff';
                     document.querySelector('.container').style.backgroundColor = '#444444';
                     document.querySelector('.container').style.color = '#ffffff';
+                    modeButton.classList.add('dark');
                     break;
             }
         }
