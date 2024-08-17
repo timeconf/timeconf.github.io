@@ -121,6 +121,30 @@
         .mode-button.dark, .language-button.dark {
             background-color: #333;
         }
+        .category h2 {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .category h2::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 8px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        #zifferblattTitle::after {
+            content: '🕑'; /* Zifferblatt-Symbol */
+        }
+        #zeigerTitle::after {
+            content: '🕰️'; /* Zeiger-Symbol */
+        }
+        #gehauseTitle::after {
+            content: '⌚'; /* Gehäuse-Symbol */
+        }
     </style>
 </head>
 <body>
@@ -225,21 +249,17 @@
             document.getElementById('displayZeiger').src = zeigerImages[randomZeigerIndex];
             document.getElementById('displayGehause').src = gehauseImages[randomGehauseIndex];
 
-            // Die entsprechenden Miniaturansichten auswählen
             selectThumbnail(document.getElementById('zifferblattContainer'), randomZifferblattIndex);
             selectThumbnail(document.getElementById('zeigerContainer'), randomZeigerIndex);
             selectThumbnail(document.getElementById('gehauseContainer'), randomGehauseIndex);
         }
 
-        window.onload = randomizeSelection;
+        randomizeSelection();
 
-        // Dark/Light Mode Switch mit Button
+        // Dark Mode Umschalten
         const modeButton = document.getElementById('modeButton');
-        let darkModeEnabled = false;
-
         modeButton.addEventListener('click', function() {
-            darkModeEnabled = !darkModeEnabled;
-            if (darkModeEnabled) {
+            if (document.body.style.backgroundColor === 'rgb(240, 242, 245)') {
                 changeMode('dark');
                 modeButton.textContent = 'Light Mode';
                 modeButton.classList.add('dark');
