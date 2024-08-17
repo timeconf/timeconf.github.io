@@ -115,7 +115,7 @@
             display: flex;
             gap: 10px;
         }
-        .mode-button, .language-button {
+        .mode-button, .language-button, .inspiration-button {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -125,7 +125,7 @@
             font-size: 14px;
             transition: background-color 0.3s;
         }
-        .mode-button.dark, .language-button.dark {
+        .mode-button.dark, .language-button.dark, .inspiration-button.dark {
             background-color: #333;
         }
         .category h2 {
@@ -149,6 +149,7 @@
     <div class="button-container">
         <button class="mode-button" id="modeButton">Dark Mode</button>
         <button class="language-button" id="languageButton">English</button>
+        <button class="inspiration-button" id="inspirationButton">Inspiration</button>
     </div>
 
     <div class="container">
@@ -236,7 +237,7 @@
             });
         }
 
-        // Generiere die Miniaturansichten
+        // Generiere die Miniaturansichten für jede Kategorie
         createThumbnails('zifferblattContainer', zifferblattImages, 'displayZifferblatt', 'zifferblattLink');
         createThumbnails('zeigerContainer', zeigerImages, 'displayZeiger', 'zeigerLink');
         createThumbnails('gehauseContainer', gehauseImages, 'displayGehause', 'gehauseLink');
@@ -353,6 +354,10 @@
             document.getElementById('zeigerTitle').textContent = translations[language].zeiger;
             document.getElementById('gehauseTitle').textContent = translations[language].gehause;
         }
+
+        // Zufallsgenerator für den "Inspiration" Button
+        const inspirationButton = document.getElementById('inspirationButton');
+        inspirationButton.addEventListener('click', randomizeSelection);
 
         changeMode('white'); // Set default mode to white
     </script>
