@@ -241,4 +241,71 @@
             darkModeEnabled = !darkModeEnabled;
             if (darkModeEnabled) {
                 changeMode('dark');
-                modeButton
+                modeButton.textContent = 'Light Mode';
+                modeButton.classList.add('dark');
+            } else {
+                changeMode('white');
+                modeButton.textContent = 'Dark Mode';
+                modeButton.classList.remove('dark');
+            }
+        });
+
+        function changeMode(mode) {
+            switch (mode) {
+                case 'white':
+                    document.body.style.backgroundColor = '#f0f2f5';
+                    document.body.style.color = '#333';
+                    document.querySelector('.container').style.backgroundColor = '#fff';
+                    document.querySelector('.preview-container').style.backgroundColor = '#f9f9f9';
+                    document.querySelector('.form-container').style.backgroundColor = '#fff';
+                    break;
+                case 'dark':
+                    document.body.style.backgroundColor = '#333';
+                    document.body.style.color = '#f0f2f5';
+                    document.querySelector('.container').style.backgroundColor = '#444';
+                    document.querySelector('.preview-container').style.backgroundColor = '#555';
+                    document.querySelector('.form-container').style.backgroundColor = '#444';
+                    break;
+            }
+        }
+
+        // Sprachwechsel zwischen Deutsch und Englisch
+        const languageButton = document.getElementById('languageButton');
+        let currentLanguage = 'de';
+
+        languageButton.addEventListener('click', function() {
+            if (currentLanguage === 'de') {
+                changeLanguage('en');
+                currentLanguage = 'en';
+                languageButton.textContent = 'Deutsch';
+            } else {
+                changeLanguage('de');
+                currentLanguage = 'de';
+                languageButton.textContent = 'English';
+            }
+        });
+
+        function changeLanguage(language) {
+            const translations = {
+                de: {
+                    zifferblatt: 'Zifferblatt',
+                    zeiger: 'Zeiger',
+                    gehause: 'Gehäuse'
+                },
+                en: {
+                    zifferblatt: 'Dial',
+                    zeiger: 'Hands',
+                    gehause: 'Case'
+                }
+            };
+
+            document.getElementById('zifferblattTitle').textContent = translations[language].zifferblatt;
+            document.getElementById('zeigerTitle').textContent = translations[language].zeiger;
+            document.getElementById('gehauseTitle').textContent = translations[language].gehause;
+        }
+
+        changeMode('white'); // Set default mode to white
+    </script>
+
+</body>
+</html>
