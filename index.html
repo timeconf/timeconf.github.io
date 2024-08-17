@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
             transition: background-color 0.3s, color 0.3s;
         }
         .container {
@@ -54,6 +55,12 @@
             flex-direction: row;
             justify-content: space-between;
             gap: 10px;
+        }
+        .affiliate-container {
+            padding: 20px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
         }
         h1 {
             text-align: center;
@@ -122,28 +129,18 @@
             background-color: #333;
         }
         .category h2 {
-            display: flex;
-            align-items: center;
             font-size: 18px;
             margin-bottom: 10px;
         }
-        .category h2::after {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-left: 8px;
-            background-size: contain;
-            background-repeat: no-repeat;
+        .affiliate-link {
+            display: block;
+            margin: 10px 0;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
         }
-        #zifferblattTitle::after {
-            content: '🕑'; /* Zifferblatt-Symbol */
-        }
-        #zeigerTitle::after {
-            content: '🕰️'; /* Zeiger-Symbol */
-        }
-        #gehauseTitle::after {
-            content: '⌚'; /* Gehäuse-Symbol */
+        .affiliate-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -183,38 +180,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="affiliate-container" id="affiliateContainer">
+            <!-- Affiliate-Links werden hier angezeigt -->
+        </div>
     </div>
 
     <script>
-        // Arrays mit möglichen Bild-URLs
+        // Arrays mit möglichen Bild-URLs und Affiliate-Links
         const zifferblattImages = [
-            "https://via.placeholder.com/300?text=Klassisches+Zifferblatt",
-            "https://via.placeholder.com/300?text=Sportliches+Armband",
-            "https://via.placeholder.com/300?text=Elegantes+Gehäuse"
+            { src: "https://via.placeholder.com/300?text=Klassisches+Zifferblatt", link: "https://affiliate-link1.com" },
+            { src: "https://via.placeholder.com/300?text=Sportliches+Armband", link: "https://affiliate-link2.com" },
+            { src: "https://via.placeholder.com/300?text=Elegantes+Gehäuse", link: "https://affiliate-link3.com" }
         ];
 
         const zeigerImages = [
-            "https://via.placeholder.com/300?text=Klassische+Zeiger",
-            "https://via.placeholder.com/300?text=Moderne+Zeiger",
-            "https://via.placeholder.com/300?text=Minimalistische+Zeiger"
+            { src: "https://via.placeholder.com/300?text=Klassische+Zeiger", link: "https://affiliate-link4.com" },
+            { src: "https://via.placeholder.com/300?text=Moderne+Zeiger", link: "https://affiliate-link5.com" },
+            { src: "https://via.placeholder.com/300?text=Minimalistische+Zeiger", link: "https://affiliate-link6.com" }
         ];
 
         const gehauseImages = [
-            "https://via.placeholder.com/300?text=Rundes+Geh%C3%A4use",
-            "https://via.placeholder.com/300?text=Eckiges+Geh%C3%A4use",
-            "https://via.placeholder.com/300?text=Ovales+Geh%C3%A4use"
+            { src: "https://via.placeholder.com/300?text=Rundes+Geh%C3%A4use", link: "https://affiliate-link7.com" },
+            { src: "https://via.placeholder.com/300?text=Eckiges+Geh%C3%A4use", link: "https://affiliate-link8.com" },
+            { src: "https://via.placeholder.com/300?text=Ovales+Geh%C3%A4use", link: "https://affiliate-link9.com" }
         ];
 
         // Funktion, um Miniaturansichten zu generieren
-        function createThumbnails(containerId, images, displayElementId) {
+        function createThumbnails(containerId, images, displayElementId, affiliateLinkElementId) {
             const container = document.getElementById(containerId);
 
             images.forEach((image, index) => {
                 const img = document.createElement('img');
-                img.src = image;
+                img.src = image.src;
                 img.classList.add('thumbnail');
                 img.addEventListener('click', () => {
-                    document.getElementById(displayElementId).src = image;
+                    document.getElementById(displayElementId).src = image.src;
+                    document.getElementById(affiliateLinkElementId).href = image.link;
                     selectThumbnail(container, index);
                 });
 
@@ -235,23 +237,49 @@
         }
 
         // Generiere die Miniaturansichten
-        createThumbnails('zifferblattContainer', zifferblattImages, 'displayZifferblatt');
-        createThumbnails('zeigerContainer', zeigerImages, 'displayZeiger');
-        createThumbnails('gehauseContainer', gehauseImages, 'displayGehause');
+        createThumbnails('zifferblattContainer', zifferblattImages, 'displayZifferblatt', 'zifferblattLink');
+        createThumbnails('zeigerContainer', zeigerImages, 'displayZeiger', 'zeigerLink');
+        createThumbnails('gehauseContainer', gehauseImages, 'displayGehause', 'gehauseLink');
 
-        // Zufällige Auswahl beim Laden der Seite
+        // Auswahl zufällig vornehmen
         function randomizeSelection() {
             const randomZifferblattIndex = Math.floor(Math.random() * zifferblattImages.length);
             const randomZeigerIndex = Math.floor(Math.random() * zeigerImages.length);
             const randomGehauseIndex = Math.floor(Math.random() * gehauseImages.length);
 
-            document.getElementById('displayZifferblatt').src = zifferblattImages[randomZifferblattIndex];
-            document.getElementById('displayZeiger').src = zeigerImages[randomZeigerIndex];
-            document.getElementById('displayGehause').src = gehauseImages[randomGehauseIndex];
+            document.getElementById('displayZifferblatt').src = zifferblattImages[randomZifferblattIndex].src;
+            document.getElementById('displayZeiger').src = zeigerImages[randomZeigerIndex].src;
+            document.getElementById('displayGehause').src = gehauseImages[randomGehauseIndex].src;
+
+            updateAffiliateLinks(randomZifferblattIndex, randomZeigerIndex, randomGehauseIndex);
 
             selectThumbnail(document.getElementById('zifferblattContainer'), randomZifferblattIndex);
             selectThumbnail(document.getElementById('zeigerContainer'), randomZeigerIndex);
             selectThumbnail(document.getElementById('gehauseContainer'), randomGehauseIndex);
+        }
+
+        // Funktion, um die Affiliate-Links zu aktualisieren
+        function updateAffiliateLinks(zifferblattIndex, zeigerIndex, gehauseIndex) {
+            const affiliateContainer = document.getElementById('affiliateContainer');
+            affiliateContainer.innerHTML = ''; // Container leeren
+
+            const zifferblattLink = document.createElement('a');
+            zifferblattLink.href = zifferblattImages[zifferblattIndex].link;
+            zifferblattLink.textContent = "Zifferblatt-Link";
+            zifferblattLink.classList.add('affiliate-link');
+            affiliateContainer.appendChild(zifferblattLink);
+
+            const zeigerLink = document.createElement('a');
+            zeigerLink.href = zeigerImages[zeigerIndex].link;
+            zeigerLink.textContent = "Zeiger-Link";
+            zeigerLink.classList.add('affiliate-link');
+            affiliateContainer.appendChild(zeigerLink);
+
+            const gehauseLink = document.createElement('a');
+            gehauseLink.href = gehauseImages[gehauseIndex].link;
+            gehauseLink.textContent = "Gehäuse-Link";
+            gehauseLink.classList.add('affiliate-link');
+            affiliateContainer.appendChild(gehauseLink);
         }
 
         randomizeSelection();
@@ -278,6 +306,7 @@
                     document.querySelector('.container').style.backgroundColor = '#fff';
                     document.querySelector('.preview-container').style.backgroundColor = '#f9f9f9';
                     document.querySelector('.form-container').style.backgroundColor = '#fff';
+                    document.querySelector('.affiliate-container').style.backgroundColor = '#f9f9f9';
                     break;
                 case 'dark':
                     document.body.style.backgroundColor = '#333';
@@ -285,6 +314,7 @@
                     document.querySelector('.container').style.backgroundColor = '#444';
                     document.querySelector('.preview-container').style.backgroundColor = '#555';
                     document.querySelector('.form-container').style.backgroundColor = '#444';
+                    document.querySelector('.affiliate-container').style.backgroundColor = '#555';
                     break;
             }
         }
